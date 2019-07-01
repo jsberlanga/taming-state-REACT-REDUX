@@ -1,6 +1,6 @@
 import React from "react";
 
-const Todo = ({ todo, onToogleComplete }) => {
+const Todo = ({ todo, onToggle }) => {
   return (
     <div
       className={`todo ${
@@ -8,7 +8,7 @@ const Todo = ({ todo, onToogleComplete }) => {
       }`}
     >
       {todo.task}
-      <button onClick={() => onToogleComplete(todo.id)}>Complete</button>
+      <button onClick={() => onToggle(todo)}>Complete</button>
     </div>
   );
 };

@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 
-const AddTodo = ({ onSubmit }) => {
+const AddTodo = ({ todos, dispatchTodos }) => {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e, input) => {
+  const onSubmit = (e, input) => {
     e.preventDefault();
-    if (!input) {
-      setError("Fill out the form");
-      return;
+
+    if (todos.find(todo => todo.task === input)) {
+      return setError("This todo is already in the list!");
     }
-    onSubmit(input);
+    if (!input) {
+      return setError("Fill out the form");
+    }
+
+    dispatchTodos({ type: "ADD_TODO", task: input });
     setInput("");
   };
+
   return (
     <div>
       {error && error}
-      <form onSubmit={e => handleSubmit(e, input)}>
+      <form onSubmit={e => onSubmit(e, input)}>
         <input
           type="text"
           onChange={e => {

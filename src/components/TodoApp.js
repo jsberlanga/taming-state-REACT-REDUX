@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
+import Filter from "./Filter";
 import initialTodos from "../todos";
 
 const filterReducer = (state, action) => {
@@ -51,21 +52,6 @@ const TodoApp = props => {
   const [filter, dispatchFilter] = useReducer(filterReducer, "ALL");
   const [todos, dispatchTodos] = useReducer(todosReducer, initialTodos);
 
-  const onSubmit = input => {
-    if (todos.find(todo => todo.task === input)) {
-      return alert("This todo is already in the list!");
-    }
-    dispatchTodos({ type: "ADD_TODO", task: input });
-  };
-
-  const onToggle = todo => {
-    console.log(todo);
-    dispatchTodos({
-      type: todo.complete ? "INCOMPLETE_TODO" : "COMPLETE_TODO",
-      id: todo.id
-    });
-  };
-
   const filteredTodos = todos.filter(todo => {
     if (filter === "ALL") {
       return true;
@@ -78,27 +64,13 @@ const TodoApp = props => {
     }
   });
 
-  // FILTERS
-  const onShowAll = () => {
-    dispatchFilter({ type: "SHOW_ALL" });
-  };
-  const onShowCompleted = () => {
-    dispatchFilter({ type: "SHOW_COMPLETED" });
-  };
-  const onShowIncompleted = () => {
-    dispatchFilter({ type: "SHOW_INCOMPLETED" });
-  };
-
   return (
     <>
       <h1>{props.title}</h1>
 
-      <AddTodo onSubmit={onSubmit} />
-
-      <TodoList todos={filteredTodos} onToggle={onToggle} />
-      <button onClick={onShowAll}>Show All</button>
-      <button onClick={onShowCompleted}>Show Completed</button>
-      <button onClick={onShowIncompleted}>Show Incompleted</button>
+      <AddTodo todos={todos} dispatchTodos={dispatchTodos} />
+      <TodoList todos={filteredTodos} dispatchTodos={dispatchTodos} />
+      <Filter dispatchFilter={dispatchFilter} />
     </>
   );
 };

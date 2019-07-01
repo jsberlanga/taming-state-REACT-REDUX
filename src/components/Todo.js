@@ -1,6 +1,13 @@
 import React from "react";
 
-const Todo = ({ todo, onToggle }) => {
+const Todo = ({ todo, dispatchTodos }) => {
+  const onToggle = todo => {
+    dispatchTodos({
+      type: todo.complete ? "INCOMPLETE_TODO" : "COMPLETE_TODO",
+      id: todo.id
+    });
+  };
+
   return (
     <div
       className={`todo ${

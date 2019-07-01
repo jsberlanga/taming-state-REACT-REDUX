@@ -1,8 +1,10 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, createContext } from "react";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
 import Filter from "./Filter";
 import initialTodos from "../todos";
+
+const TodosContext = createContext(null);
 
 const filterReducer = (state, action) => {
   switch (action.type) {
@@ -65,14 +67,14 @@ const TodoApp = props => {
   });
 
   return (
-    <>
+    <TodosContext.Provider value={{ dispatchTodos, todos }}>
       <h1>{props.title}</h1>
-
-      <AddTodo todos={todos} dispatchTodos={dispatchTodos} />
-      <TodoList todos={filteredTodos} dispatchTodos={dispatchTodos} />
+      <AddTodo />
+      <TodoList todos={filteredTodos} />
       <Filter dispatchFilter={dispatchFilter} />
-    </>
+    </TodosContext.Provider>
   );
 };
 
 export default TodoApp;
+export { TodosContext };

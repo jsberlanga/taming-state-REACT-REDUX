@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TodosContext } from "./TodoApp";
 
-const Todo = ({ todo, dispatchTodos }) => {
-  const onToggle = todo => {
+const Todo = ({ todo }) => {
+  const { dispatchTodos } = useContext(TodosContext);
+
+  const onToggle = () =>
     dispatchTodos({
       type: todo.complete ? "INCOMPLETE_TODO" : "COMPLETE_TODO",
       id: todo.id
     });
-  };
 
   return (
     <div
@@ -15,7 +17,7 @@ const Todo = ({ todo, dispatchTodos }) => {
       }`}
     >
       {todo.task}
-      <button onClick={() => onToggle(todo)}>Complete</button>
+      <button onClick={onToggle}>Complete</button>
     </div>
   );
 };

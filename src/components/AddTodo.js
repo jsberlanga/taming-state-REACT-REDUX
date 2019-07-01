@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { TodosContext } from "./TodoApp";
 
-const AddTodo = ({ todos, dispatchTodos }) => {
+const AddTodo = ({ todos }) => {
+  const { dispatchTodos, todos: contextTodos } = useContext(TodosContext);
+
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
 
   const onSubmit = (e, input) => {
     e.preventDefault();
 
-    if (todos.find(todo => todo.task === input)) {
+    if (contextTodos.find(todo => todo.task === input)) {
       return setError("This todo is already in the list!");
     }
     if (!input) {
